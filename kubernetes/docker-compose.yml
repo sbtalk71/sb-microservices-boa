@@ -1,0 +1,57 @@
+version: '3'
+services:
+  eureka-server:
+    image: hello-eureka-server:1.0
+    container_name: eureka-server
+    expose:
+    - "8761"
+    ports: 
+    - 8761:8761 
+  emp-service:
+    image: emp-microservice:1.0
+    #container_name: emp-service
+    ports:
+    - "8180"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      DB_USER: admin
+      DB_PASSWORD: welcome1     
+      DJDBC_URL: jdbc:mariadb://training.crnasbluim9w.us-east-1.rds.amazonaws.com:3306/training
+      
+    links: 
+        - eureka-server
+  dept-service:
+    image: dept-microservice:1.0
+    #container_name: dept-service
+    ports:
+    - "8480"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      DB_USER: admin
+      DB_PASSWORD: welcome1     
+      DJDBC_URL: jdbc:mariadb://training.crnasbluim9w.us-east-1.rds.amazonaws.com:3306/training
+      
+    links: 
+        - eureka-server
+        
+  hr-service:
+    image: hr-service:1.0
+    #container_name: hr-service
+    ports:
+    - "8580"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka
+      
+    links: 
+        - eureka-server
+        
+  gateway-service:
+    image: gateway-microservice:1.0
+    #container_name: gateway-service
+    ports:
+    - "9090:9000"
+    environment:
+      EUREKA_SERVER: http://eureka-server:8761/eureka  #(name of eureka host==eureka container name)
+      
+    links: 
+        - eureka-server

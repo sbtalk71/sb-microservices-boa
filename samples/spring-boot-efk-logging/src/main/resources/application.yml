@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: logging-service
+
+management:
+   tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    com.demo: DEBUG
+  file:
+    name: /logs/apps.log
+  structured:
+    format:
+      file: logstash

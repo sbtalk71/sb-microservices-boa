@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  splunk:
+
+    image: splunk/splunk:latest
+
+    container_name: splunk
+
+    hostname: splunk
+
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_GENERAL_TERMS: --accept-sgt-current-at-splunk-com
+      SPLUNK_PASSWORD: Password@123
+      SPLUNK_HEC_TOKEN: 12345678-1234-1234-1234-123456789012
+
+    ports:
+      - "8000:8000"
+      - "8088:8088"
+      - "8089:8089"
+      - "9997:9997"
+
+    volumes:
+      - splunk-etc:/opt/splunk/etc
+      - splunk-var:/opt/splunk/var
+
+    restart: unless-stopped
+
+  otel-collector:
+
+    image: quay.io/signalfx/splunk-otel-collector:latest
+
+    container_name: splunk-otel
+
+    depends_on:
+      - splunk
+
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "8888:8888"
+
+    volumes:
+      - ./collector-config.yaml:/etc/otel/collector-config.yaml
+
+    command:
+      - "--config=/etc/otel/collector-config.yaml"
+
+volumes:
+  splunk-etc:
+  splunk-var:

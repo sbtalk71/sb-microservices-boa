@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: spring-boot-observability
+  profiles:
+    active: dynatrace
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: spring-boot-observability
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  observations:
+   annotations:
+    enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
+    export:
+      enabled: true
+  otlp:
+   metrics:
+      export:
+        enabled: false
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+          transport: http
+debug: true
+logging:
+ level:
+  io.opentelemetry: DEBUG
+  io.micrometer.tracing: DEBUG

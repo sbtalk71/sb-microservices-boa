@@ -1,0 +1,44 @@
+server:
+ port: 9090
+spring:
+ application:
+  name: api-gateway
+ cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+          - id: hr-service
+            uri: http://hr-service:8280
+            predicates:
+              - Path=/hr/**
+            filters:
+              - name:  CircuitBreaker
+                args:
+                 name: hr-service-cb
+                 fallbackUri: forward:/hr-fallback
+         #----------------------------				
+          - id: emp-service
+            uri: http://emp-service:8181
+            predicates:
+             - Path=/emp/**
+         #----------------------------  
+          - id: test-service
+            uri: http://www.google.co.in
+            predicates:
+              - Path=/test/**
+ 
+
+   
+resilience4j:
+  circuitbreaker:
+    instances:
+     hr-service-cb:
+       registerHealthIndicator: true
+       slidingWindowSize: 10
+       permittedNumberOfCallsInHalfOpenState: 3
+       slidingWindowType: COUNT_BASED
+       minimumNumberOfCalls: 2
+       waitDurationInOpenState: 10s
+       failureRateThreshold: 33.3
+       automaticTransitionFromOpenToHalfOpenEnabled: true

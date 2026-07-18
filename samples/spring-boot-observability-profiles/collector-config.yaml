@@ -1,0 +1,48 @@
+receivers:
+
+  otlp:
+    protocols:
+      grpc:
+       endpoint: 0.0.0.0:4317
+      http:
+       endpoint: 0.0.0.0:4318
+
+processors:
+
+  batch:
+
+exporters:
+
+  splunk_hec:
+
+    token: 12345678-1234-1234-1234-123456789012
+
+    endpoint: http://splunk:8088/services/collector
+
+    source: springboot
+
+    sourcetype: springboot
+
+    index: main
+
+  debug:
+   verbosity: detailed
+
+service:
+
+  pipelines:
+
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [splunk_hec, debug]
+
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]

@@ -1,0 +1,107 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  cloud:
+    gateway:
+      server:
+       webflux:
+          routes:
+
+        # ---------------------------------------------------
+        # 1. Basic Path Predicate
+        # ---------------------------------------------------
+          - id: greet-route
+            uri: http://localhost:8081
+            predicates:
+             - Path=/api/greet/**
+
+        # ---------------------------------------------------
+        # 2. After Predicate
+        # Route active only after specified date-time
+        # ---------------------------------------------------
+          - id: after-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/after/**
+              - After=2026-06-25T00:00:00+05:30[Asia/Kolkata]
+
+        # ---------------------------------------------------
+        # 3. Before Predicate
+        # Route active only before specified date-time
+        # ---------------------------------------------------
+          - id: before-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/before/**
+              - Before=2027-01-01T00:00:00+05:30[Asia/Kolkata]
+
+        # ---------------------------------------------------
+        # 4. URI Rewriting
+        # /api/customer/**
+        # --> /api/greet/**
+        # ---------------------------------------------------
+          - id: rewrite-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/customer/**
+            filters:
+              - RewritePath=/api/customer/(?<segment>.*), /api/greet/${segment}
+
+        # ---------------------------------------------------
+        # 5. Request Modification
+        # Adds custom request header
+        # ---------------------------------------------------
+          - id: request-modification-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/request/**
+            filters:
+             - AddRequestHeader=X-Gateway, SpringCloudGateway
+             - AddRequestParameter=source,gateway
+
+        # ---------------------------------------------------
+        # 6. Response Modification
+        # Adds response header
+        # ---------------------------------------------------
+          - id: response-modification-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/response/**
+            filters:
+              - AddResponseHeader=X-Processed-By, Gateway
+
+        # ---------------------------------------------------
+        # 7. Circuit Breaker
+        # ---------------------------------------------------
+          - id: circuit-breaker-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/cb/**
+            filters:
+              - name: CircuitBreaker
+                args:
+                  name: backendCB
+                  fallbackUri: forward:/fallback
+
+        # ---------------------------------------------------
+        # 8. Redis Rate Limiter
+        # ---------------------------------------------------
+          - id: rate-limiter-route
+            uri: http://localhost:8081
+            predicates:
+              - Path=/api/rate/**
+            filters:
+              - name: RequestRateLimiter
+                args:
+                  redis-rate-limiter.replenishRate: 5
+                  redis-rate-limiter.burstCapacity: 10
+                  key-resolver: "#{@ipKeyResolver}"

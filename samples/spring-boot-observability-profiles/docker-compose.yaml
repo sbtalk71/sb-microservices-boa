@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  splunk:
+    image: splunk/splunk:latest
+    container_name: splunk
+    hostname: splunk
+
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_GENERAL_TERMS: --accept-sgt-current-at-splunk-com
+      SPLUNK_PASSWORD: Password@123
+
+    ports:
+      - "8000:8000"
+      - "8088:8088"
+      - "8089:8089"
+      - "9997:9997"
+
+    volumes:
+      - splunk-var:/opt/splunk/var
+      - splunk-etc:/opt/splunk/etc
+
+  forwarder:
+    image: splunk/universalforwarder:latest
+    container_name: splunk-forwarder
+    hostname: forwarder
+
+    depends_on:
+      - splunk
+
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_GENERAL_TERMS: --accept-sgt-current-at-splunk-com
+      SPLUNK_PASSWORD: Password@123
+
+    volumes:
+      - D:/github/codebase/microservices/2026/spring-boot-observability-profiles/logs:/logs
+      - ./uf-config:/opt/splunkforwarder/etc/system/local
+
+#  springboot:
+#    image: eclipse-temurin:21-jre
+#    container_name: employee-service
+#
+#    depends_on:
+#      - splunk
+#
+#    working_dir: /app
+#
+#    volumes:
+#      - ./app:/app
+#      - ./logs:/logs
+#
+#    command: >
+#      java
+#      -jar
+#      application.jar
+
+volumes:
+  splunk-var:
+  splunk-etc:

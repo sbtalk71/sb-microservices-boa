@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: hr-service
+server:
+ port: 8280
+ 
+resilience4j:
+  circuitbreaker:
+    instances:
+     hr-service-cb:
+       registerHealthIndicator: true
+       slidingWindowSize: 10
+       permittedNumberOfCallsInHalfOpenState: 3
+       slidingWindowType: COUNT_BASED
+       minimumNumberOfCalls: 2
+       waitDurationInOpenState: 10s
+       failureRateThreshold: 33.3
+       automaticTransitionFromOpenToHalfOpenEnabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health: 
+   circuitbreakers:
+      enabled: true
+emp:
+ service:
+  uri: http://${EMP_SERVICE_URL:localhost:8181}

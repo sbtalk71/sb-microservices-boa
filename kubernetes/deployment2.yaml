@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: greet-client-rest-api
+  name: greet-client-rest-api
+  namespace: default
+  
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: greet-client-rest-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+       labels:
+        app: greet-client-rest-api
+    spec:
+      containers:
+       - env:
+         - name: SERVICE_HOST
+           value: http://greet-message-service #service name mappes to dynamic ip
+         image: sbtalk71/greet-client-rest-api:0.0.1-SNAPSHOT
+         imagePullPolicy: IfNotPresent
+         name: greet-client-rest-api
+       
+      restartPolicy: Always
+      

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: spring-boot-observability
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  observations:
+   annotations:
+    enabled: true
+
+  dynatrace:
+   metrics:
+    export:
+     enabled: true
+     uri: https://phb17775.live.dynatrace.com/api/v2/metrics/ingest
+     api-token: 
+     step: 30s
+
+  metrics:
+   tags:
+    application: spring-boot-observability
+    environment: dev
+logging:
+ level:
+  io.micrometer: TRACE
+  io.micrometer.dynatrace: TRACE
+  org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace: TRACE

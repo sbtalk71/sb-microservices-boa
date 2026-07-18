@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - c:/temp/mysql:/var/lib/mysql
+    networks:
+      - mynetwork
+
+  eureka:
+    image: eureka-server:1.0
+    container_name: eureka
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    environment:
+      EUREKA_HOST: eureka
+    networks:
+      - mynetwork
+    depends_on:
+      - mysql
+
+  emp-service:
+    image: emp-service:1.0
+    container_name: emp-service
+    restart: unless-stopped
+    ports:
+      - "8181:8181"
+    environment:
+      EUREKA_HOST: eureka
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root
+    networks:
+      - mynetwork
+    depends_on:
+      - mysql
+      - eureka
+
+networks:
+  mynetwork:
+    driver: bridge

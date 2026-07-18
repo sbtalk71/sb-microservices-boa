@@ -1,0 +1,98 @@
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+      "name": "",
+      "labels": {
+        "name": ""
+      },
+      "generateName": "",
+      "namespace": "",
+      "annotations": []
+    },
+    "spec": {
+  
+      // See 'The spec schema' for details.
+  
+    }
+  }
+
+  ##spec schema
+  "spec": {
+  "containers": [
+    {
+      "name": "",
+      "image": "",
+      "command": [
+        ""
+      ],
+      "args": [
+        ""
+      ],
+      "env": [
+        {
+          "name": "",
+          "value": ""
+        }
+      ],
+      "imagePullPolicy": "",
+      "ports": [
+        {
+          "containerPort": 0,
+          "name": "",
+          "protocol": ""
+        }
+      ],
+      "resources": {
+        "cpu": ""
+        "memory": ""
+      }
+    }
+  ],
+  "restartPolicy": "",
+  "volumes": [
+    {
+      "name": "",
+      "emptyDir": {
+        "medium": ""
+      },
+      "secret": {
+        "secretName": ""
+      }
+    }
+  ]
+}
+
+## Sample file
+
+"kind": "Pod",
+"apiVersion": "v1",
+"metadata": {
+  "name": "redis-django",
+  "labels": {
+    "app": "webapp"
+  }
+},
+"spec": {
+  "containers": [
+    {
+      "name": "key-value-store",
+      "image": "redis",
+      "ports": [
+        {
+          "containerPort": 6379,
+        }
+      ]
+    },
+    {
+      "name": "frontend",
+      "image": "django",
+      "ports": [
+        {
+          "containerPort": 8000,
+        }
+      ]
+    }
+  ]
+}
+}

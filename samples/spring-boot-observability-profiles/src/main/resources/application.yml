@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: spring-boot-observability
+  profiles:
+    active: splunk-otlp
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  observations:
+    annotations:
+      enabled: true

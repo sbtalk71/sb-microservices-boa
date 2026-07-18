@@ -1,0 +1,32 @@
+server:
+ port: 8381
+ 
+logging:
+ level:
+    org.springframework: error
+    com.demo.spring.services: info
+ file:
+    name: applogs.log 
+
+ 
+spring:
+  application:
+   name: emp-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:springdb}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:P@ssword}
+    
+   
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+       ddl-auto: update
+#debug: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
