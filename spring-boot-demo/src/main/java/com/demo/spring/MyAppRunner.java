@@ -1,9 +1,9 @@
 package com.demo.spring;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class MyAppRunner implements CommandLineRunner {
 
 	private MyApp myapp;

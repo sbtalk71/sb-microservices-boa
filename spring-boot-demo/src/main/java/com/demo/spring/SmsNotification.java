@@ -2,12 +2,11 @@ package com.demo.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EmailNotification implements NotifactionService {
+public class SmsNotification implements NotifactionService {
 
 	private Logger logger=LoggerFactory.getLogger(this.getClass().getName());
 	
@@ -15,7 +14,7 @@ public class EmailNotification implements NotifactionService {
 	public void notifyChannel() {
 		
 
-		logger.info("Email notification sent..");
+		logger.info("SMS notification sent..");
 	}
 
 }
