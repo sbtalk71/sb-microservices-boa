@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class EmpExceptionHandler {
 
-	@ExceptionHandler(RuntimeException.class)
-	public ResponseEntity handle(RuntimeException ex) {
+	@ExceptionHandler(EmpNotFoundException.class)
+	public ResponseEntity handle(EmpNotFoundException ex) {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 	}
 }

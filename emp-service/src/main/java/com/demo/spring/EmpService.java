@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.demo.spring.entities.Emp;
+import com.demo.spring.exceptions.EmpNotFoundException;
 import com.demo.spring.repositories.EmpRepository;
 
 @Service
@@ -32,7 +33,7 @@ public class EmpService {
 			return empOp.get();
 		} else {
 			logger.warn(" employee with id {} not found", id);
-			throw new RuntimeException("Emp Not found");
+			throw new EmpNotFoundException("Emp Not found");
 		}
 	}
 	
@@ -48,7 +49,7 @@ public class EmpService {
 			return true;
 		}else {
 			logger.warn("employee with id {} not found", id);
-			throw new RuntimeException("Emp Not found");
+			throw new EmpNotFoundException("Emp Not found");
 		}
 	}
 
