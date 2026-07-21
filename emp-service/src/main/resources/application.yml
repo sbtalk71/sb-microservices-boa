@@ -1,22 +1,18 @@
 server:
   port: 8181
 spring:
+  profiles:
+    active: default
   application:
    name: emp-service
   datasource:
-    url: jdbc:mysql://localhost:3306/springdb
-    username: root
-    password: P@ssword
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:springdb}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:P@ssword}
   jpa:
    show-sql: true
    hibernate:
       ddl-auto: update
-
-  data:
-    redis:
-      host: localhost
-      port: 6379
   cache:
-     type: redis
-     redis:
-      time-to-live: 20s
+    type: simple
+
