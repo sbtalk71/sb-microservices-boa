@@ -6,13 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.spring.EmpService;
 import com.demo.spring.entities.Emp;
+import com.demo.spring.utils.ResponseData;
 
 @RestController
 @RequestMapping("/emp")
@@ -35,6 +39,19 @@ public class EmpRestController {
 		
 		Emp e=empService.findEmpById(id);
 		return ResponseEntity.ok(e);
+	}
+	
+	@PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Emp> saveToDb( @RequestBody Emp emp){
+		Emp e=empService.save(emp);
+		return ResponseEntity.ok(e);
+	}
+	
+	@DeleteMapping(path="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ResponseData> deleteEmp(@PathVariable Integer id){
+		boolean deleted=empService.delete(id);
+		return ResponseEntity.ok(new ResponseData(""+deleted));
+		
 	}
 
 }

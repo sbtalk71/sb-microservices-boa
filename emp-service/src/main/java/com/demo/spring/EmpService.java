@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.demo.spring.entities.Emp;
@@ -20,11 +22,13 @@ public class EmpService {
 		this.empRepository = empRepository;
 	}
 
+	@Cacheable(value = "employees")
 	public List<Emp> listAllEmps() {
 		logger.info("connecting to database to get the list of employees..");
 		return empRepository.findAll();
 	}
 
+	@Cacheable(value = "employees",key = "#id")
 	public Emp findEmpById(Integer id) {
 		Optional<Emp> empOp = empRepository.findById(id);
 		logger.debug("connecting to database to get employee with id {}", id);
@@ -37,6 +41,7 @@ public class EmpService {
 		}
 	}
 	
+	@CachePut(value = "employees", key = "#emp.empId")
 	public Emp save(Emp emp) {
 		logger.info("Employee saved to database");
 		Emp e= empRepository.save(emp);
