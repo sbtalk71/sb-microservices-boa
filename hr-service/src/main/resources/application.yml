@@ -1,0 +1,8 @@
+server:
+ port: 8280
+spring:
+  application:
+    name: hr-service
+emp:
+ service:
+  url: http://localhost:8181
