@@ -1,10 +1,12 @@
 package com.demo.spring.entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="MYEMP")
-public class Emp {
+public class Emp implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
