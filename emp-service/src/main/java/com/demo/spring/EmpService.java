@@ -13,6 +13,8 @@ import com.demo.spring.entities.Emp;
 import com.demo.spring.exceptions.EmpNotFoundException;
 import com.demo.spring.repositories.EmpRepository;
 
+import io.micrometer.observation.annotation.Observed;
+
 @Service
 public class EmpService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -23,12 +25,14 @@ public class EmpService {
 	}
 
 	@Cacheable(value = "employees")
+	@Observed(name = "list.emp.all")
 	public List<Emp> listAllEmps() {
 		logger.info("connecting to database to get the list of employees..");
 		return empRepository.findAll();
 	}
 
 	@Cacheable(value = "employees",key = "#id")
+	@Observed(name = "find.one.emp")
 	public Emp findEmpById(Integer id) {
 		Optional<Emp> empOp = empRepository.findById(id);
 		logger.debug("connecting to database to get employee with id {}", id);
