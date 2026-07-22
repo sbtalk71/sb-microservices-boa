@@ -1,0 +1,30 @@
+server:
+ port: 9080
+spring:
+ application:
+   name: api-gateway
+
+ cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+           - id: my-hr-service
+             uri: lb://hr-service
+             predicates:
+               - Path=/hr/**
+           - id: my-emp-service
+             uri: lb://emp-service
+             predicates:
+              - Path=/emp/**
+           - id: test-service
+             uri: http://google.co.in
+             predicates:
+              - Path=/test/*
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

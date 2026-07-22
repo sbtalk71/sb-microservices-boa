@@ -1,11 +1,11 @@
 server:
-  port: 8181
+  port: 8188
 spring:
   application:
     name: employee
 
   profiles:
-    active: dev
+    active: default
 
   config:
     import: optional:configserver:http://localhost:8888
