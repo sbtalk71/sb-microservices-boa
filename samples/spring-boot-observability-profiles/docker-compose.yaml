@@ -36,7 +36,7 @@ services:
       SPLUNK_PASSWORD: Password@123
 
     volumes:
-      - D:/github/codebase/microservices/2026/spring-boot-observability-profiles/logs:/logs
+      - C:/github/sb-microservices-boa/samples/spring-boot-observability-profiles/logs:/logs
       - ./uf-config:/opt/splunkforwarder/etc/system/local
 
 #  springboot:
