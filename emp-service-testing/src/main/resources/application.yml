@@ -1,0 +1,40 @@
+server:
+  port: 8181
+spring:
+  profiles:
+    active: default
+  application:
+   name: emp-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:springdb}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:P@ssword}
+  jpa:
+   show-sql: true
+   hibernate:
+      ddl-auto: update 
+  cache:
+    type: simple
+
+management:
+ endpoints:
+    web:
+      exposure:
+        include: "*"
+ observations:
+    annotations:
+      enabled: true
+
+ prometheus:
+    metrics:
+      export:
+        enabled: true
+ tracing:
+  sampling:
+   probability: 1.0
+  export:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans
+  tracing:
+    export:
+      enabled: true
