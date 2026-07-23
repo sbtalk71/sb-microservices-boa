@@ -3,12 +3,7 @@ services:
     image: apache/kafka:latest
     container_name: kafka
     ports: ["9092:9092"]
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      # ... (essential environment variables for KRaft mode)
     volumes:
-      - kafka_data:/var/lib/kafka/data
+      - kafka_data:/tmp/kraft-combined-logs
 volumes:
   kafka_data:
