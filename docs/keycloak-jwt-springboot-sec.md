@@ -175,7 +175,8 @@ curl -X POST http://localhost:8080/realms/myrealm/protocol/openid-connect/token 
   -d "client_id=my-client" \
   -d "username=alice" \
   -d "password=secret" \
-  -d "grant_type=password"
+  -d "grant_type=password" \
+  -d "client_secret=client-secret"
 
 # Call the protected endpoint
 curl http://localhost:8081/api/me -H "Authorization: Bearer <access_token>"
