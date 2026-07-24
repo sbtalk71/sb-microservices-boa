@@ -5,10 +5,9 @@
 -  Click the link below:
   Pre Assessment Link:  https://forms.office.com/r/M8r74WZdkN
 
-## QR Code for Pre Assessment
-
-<img src="pre-test.png" alt="App Dashboard" width="300" height="300">
-
+## Post Assessment and Feedback links:
+Post Assessment Link: https://forms.office.com/r/x4h04Ar7tq
+Feedback Link: https://forms.office.com/r/Mv7zWRjMJR
 
 # Some Important Docker image run commands
 ### Run Redis Server with volume
