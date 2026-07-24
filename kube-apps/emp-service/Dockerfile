@@ -9,4 +9,4 @@ ENV DB_PASSWORD=P@ssword
 CMD java -jar app.jar
 
 ## CD to the location of Dockerfile
-##docker build -t emp-service:1.0
+##docker build -t emp-service:1.0 .
