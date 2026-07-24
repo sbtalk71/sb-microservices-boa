@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: hr-service
+  name: hr-service
+  namespace: default
+  
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: hr-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+       labels:
+        app: hr-service
+    spec:
+      containers:
+      - name: hr-service
+        image: hr-service:1.0
+        imagePullPolicy: IfNotPresent
+        
+        env:
+        - name: EMP_SERVICE_URL
+          valueFrom:
+            configMapKeyRef:
+              key: EMP_SERVICE_URL
+              name: emp-service-config
+        
+      
+       
+      restartPolicy: Always
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hr-service
+  name: hr-service
+  namespace: default
+  
+spec:
+  
+  ports:
+  - port: 8282
+    protocol: TCP
+    targetPort: 8280
+  selector:
+    app: hr-service
+  sessionAffinity: None
+  type: LoadBalancer

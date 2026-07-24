@@ -5,6 +5,7 @@ data:
   DB_HOSTNAME: mysql
   DB_PORT: "3306"
   DB_USERNAME: root
+  EMP_SERVICE_URL: emp-service:8081
 metadata:
   name: emp-service-config
   namespace: default
